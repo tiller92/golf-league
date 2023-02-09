@@ -1,11 +1,26 @@
 import styles from "./index.module.css";
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
+import { useState, useEffect } from "react";
 
+type League = {
+  id: number;
+  name: string;
+}
 
 
 const Home: NextPage = () => {
+  const [leagues ,setLeague] = useState<string | null>()
+
+  useEffect(()=>{
+    fetch('api/leagues')
+    .then((res)=> res.json())
+    .then((data)=> {setLeague(data)
+    console.log(leagues,"data from league api")
+    })
+
+
+  },[])
   return (
     <>
       <Head>
@@ -23,6 +38,11 @@ const Home: NextPage = () => {
             <input type="text" className="border p-2 m-2" />
             <button className="border p-2">Search</button>
           </form>
+          <div>
+            <ul>
+
+            </ul>
+          </div>
         </div>
       </main>
     </>
