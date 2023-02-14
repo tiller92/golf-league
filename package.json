@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/swc-darwin-x64":"^13.0.0",
     "@prisma/client": "^4.10.0",
     "next": "13.1.6",
     "react": "18.2.0",

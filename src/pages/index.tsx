@@ -1,26 +1,30 @@
-import styles from "./index.module.css";
 import { type NextPage } from "next";
 import Head from "next/head";
 import { useState, useEffect } from "react";
 
-type League = {
-  id: number;
-  name: string;
+import { GetServerSideProps } from 'next'
+
+type Data = { 
+  id:string;
+  name:string;
+ }
+
+export const getServerSideProps: GetServerSideProps<{ data: Data }> = async (context) => {
+  const res = await fetch('http://localhost:3000/api/leagues')
+  const data: Data = await res.json()
+
+  return {
+    props: {
+      data,
+    },
+  }
 }
 
-
-const Home: NextPage = () => {
+const Home: NextPage = (props) => {
   const [leagues ,setLeague] = useState<string | null>()
-
-  useEffect(()=>{
-    fetch('api/leagues')
-    .then((res)=> res.json())
-    .then((data)=> {setLeague(data)
-    console.log(leagues,"data from league api")
-    })
-
-
-  },[])
+  let list = JSON.parse(props["data"]["data"])
+  console.log(list)
+  
   return (
     <>
       <Head>

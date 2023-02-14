@@ -1,19 +1,20 @@
 import { PrismaClient } from '@prisma/client'
-
+// do not keep this only create one instance of prisma client and import it here
 const prisma = new PrismaClient()
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 async function main() {
   const allLeagues = await prisma.leagues.findMany()
-  console.log(allLeagues)
-  return JSON.stringify(allLeagues)
+  return allLeagues
 }
 
-main()
-  .then(async () => {
-    await prisma.$disconnect()
-  })
-  .catch(async (e) => {
-    console.error(e)
-    await prisma.$disconnect()
-    process.exit(1)
-  })
+
+
+  export default async function (req: NextApiRequest, res: NextApiResponse) {
+    try {
+      let result = await main()
+      res.status(200).json({"data": `${JSON.stringify(result)}`})
+    }catch (err){
+      res.status(500).json({"message": "sorry somthing went wrong"})
+    }
+  }
