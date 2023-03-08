@@ -13,7 +13,7 @@ async function main() {
   export default async function (req: NextApiRequest, res: NextApiResponse) {
     try {
       let result = await main()
-      res.status(200).json({"data": `${JSON.stringify(result)}`})
+      res.status(200).json({"data": result})
     }catch (err){
       res.status(500).json({"message": "sorry somthing went wrong"})
     }
