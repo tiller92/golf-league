@@ -22,10 +22,7 @@ export const getServerSideProps: GetServerSideProps<{ data: Data }> = async (con
 
 const Home: NextPage = (props) => {
   // no need for this state on the home page yet
-  const [leagues ,setLeague] = useState<Data[] | null>()
-  let list:Data[] = props["data"]["data"]
-  console.log(list)
- 
+  const [teams ,setTeams] = useState<Data[] | null>(props["data"]["data"])
   
   return (
     <>
@@ -40,18 +37,23 @@ const Home: NextPage = (props) => {
         <div className="sm:flex sm:justify-center">
           <form action="">
             <label htmlFor="">
-              League ID
+              Team ID
             </label>
             <input type="text" className="border p-2 m-2" />
             <button className="border p-2">Search</button>
           </form>
         </div>
-           <ul>
-            {list.map(item => (
-              <li className="" key={item.id}>{item.name}</li>
+        <h3 className="sm:flex sm:justify-center sm:m-3">Teams</h3>
+        <div className="sm:h-1/2 sm:w-1/2 sm:flex sm:justify-center">
+           <ul className="sm:border sm:flex sm:justify-center">
+            {
+              teams.map(item => (
+              <li className="sm:flex justify-center sm:m-3 sm:p-3" key={item.id}>{item.name}</li>
             )) }
+
               
            </ul>
+           </div>
           </>
       </main>
     </>
