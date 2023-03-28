@@ -11,6 +11,24 @@ datasource db {
 }
 
 model Leagues {
-  id      Int      @id @default(autoincrement())
-  name    String?
+  id    Int     @id @default(autoincrement())
+  name  String?
+  Team Teams[]
+}
+
+model Teams {
+  id       Int     @id @default(autoincrement())
+  league   Leagues @relation(fields: [leagueId], references: [id])
+  leagueId Int
+  name     String
+  players  Int[]
+  scores   Int[]
+}
+
+model Players {
+  id       Int    @id @default(autoincrement())
+  name     String
+  handicap Int
+  playerScores   Int[]
+  playerPoints   Int[]
 }
