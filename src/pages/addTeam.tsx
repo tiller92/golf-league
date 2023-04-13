@@ -19,7 +19,7 @@ export const getServerSideProps: GetServerSideProps<{ data: Data }> = async (con
   }
 }
 
-const Home: NextPage = (props) => {
+const addTeam: NextPage = (props) => {
   // no need for this state on the home page yet
   const [teams ,setTeams] = useState<Data[] | null>([])
   if (!teams) {
@@ -34,11 +34,19 @@ const Home: NextPage = (props) => {
       </Head>
       <main >
         <>
-        <h1 className="sm:text-4xl sm:flex sm:justify-center">Coreys Golf League</h1>
+        <h1 className="sm:text-4xl sm:flex sm:justify-center">Add a new Team</h1>
         <div className="sm:flex sm:justify-center">
           <form action="">
             <label htmlFor="">
-              Team ID
+              Team name
+            </label>
+            <input type="text" className="border p-2 m-2" />
+            <label htmlFor="">
+              player one
+            </label>
+            <input type="text" className="border p-2 m-2" />
+            <label htmlFor="">
+              player two
             </label>
             <input type="text" className="border p-2 m-2" />
             <button className="border p-2">Search</button>
@@ -55,13 +63,10 @@ const Home: NextPage = (props) => {
               
            </ul>
            </div>
-           <div className="sm:flex sm:justify-center ">
-           <a href="/addTeam" className="sm:btn sm:border sm:p-3 sm:flex sm:justify-center">Add Team</a>
-           </div>
           </>
       </main>
     </>
   );
 };
 
-export default Home;
+export default addTeam;
