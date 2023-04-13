@@ -22,8 +22,10 @@ export const getServerSideProps: GetServerSideProps<{ data: Data }> = async (con
 
 const Home: NextPage = (props) => {
   // no need for this state on the home page yet
-  const [teams ,setTeams] = useState<Data[] | null>(props["data"]["data"])
-  
+  const [teams ,setTeams] = useState<Data[] | null>([])
+  if (!teams) {
+    return <h1>sorry idiot</h1>
+  }
   return (
     <>
       <Head>
