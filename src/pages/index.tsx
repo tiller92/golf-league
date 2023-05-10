@@ -10,7 +10,7 @@ type Data = {
  }
 
 export const getServerSideProps: GetServerSideProps<{ data: Data }> = async (context) => {
-  const res = await fetch('http://localhost:3000/api/teams')
+  const res = await fetch('http://localhost:3000/api/leagues')
   const data: Data = await res.json()
   return {
     props: {
@@ -21,8 +21,9 @@ export const getServerSideProps: GetServerSideProps<{ data: Data }> = async (con
 
 const Home: NextPage = (props) => {
   // no need for this state on the home page yet
-  const [teams ,setTeams] = useState<Data[] | null>([])
-  if (!teams) {
+  console.log(props.data.data);
+  const [leagues ,setLeagues] = useState<Data[] | null>( props.data.data);
+  if (!leagues) {
     return <h1>sorry idiot</h1>
   }
   return (
@@ -34,22 +35,22 @@ const Home: NextPage = (props) => {
       </Head>
       <main >
         <>
-        <h1 className="sm:text-4xl sm:flex sm:justify-center">Coreys Golf League</h1>
+        <h1 className="sm:text-4xl sm:flex sm:justify-center">Golf Leagues</h1>
         <div className="sm:flex sm:justify-center">
           <form action="">
             <label htmlFor="">
-              Team ID
+              League Name
             </label>
             <input type="text" className="border p-2 m-2" />
             <button className="border p-2">Search</button>
           </form>
         </div>
-        <h3 className="sm:flex sm:justify-center sm:m-3">Teams</h3>
+        <h3 className="sm:flex sm:justify-center sm:m-3">Leagues</h3>
         <div className="sm:h-1/2 sm:w-1/2 sm:flex sm:justify-center">
-           <ul className="sm:border sm:flex sm:justify-center">
+           <ul className="sm:flex sm:flex-col sm:justify-center">
             {
-              teams.map(item => (
-              <li className="sm:flex justify-center sm:m-3 sm:p-3" key={item.id}>{item.name}</li>
+              leagues.map(item => (
+              <li className="sm:flex sm:border sm:cursor-pointer sm:hover:bg-sky-700 sm:justify-center sm:m-3 sm:p-3" key={item.id}>League Name: {item.name} id: {item.id}</li>
             )) }
 
               

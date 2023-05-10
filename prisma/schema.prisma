@@ -1,4 +1,4 @@
-// This is your Prisma schema file,
+//TODO: need to optimize relationships to optimize calls to DB
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
@@ -27,8 +27,20 @@ model Teams {
 
 model Players {
   id       Int    @id @default(autoincrement())
+  teamId   Int
   name     String
   handicap Int
-  playerScores   Int[]
-  playerPoints   Int[]
+}
+
+model Scores {
+  id       Int    @id @default(autoincrement())
+  score    Int
+  playerId Int
+}
+
+model Courses {
+  id       Int    @id @default(autoincrement())
+  name     String
+  slope    Float
+  Rating   Float
 }

@@ -5,10 +5,9 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 async function main() {
   const allLeagues = await prisma.leagues.findMany()
+  console.log(allLeagues)
   return allLeagues
 }
-
-
 
   export default async function (req: NextApiRequest, res: NextApiResponse) {
     try {
@@ -18,3 +17,4 @@ async function main() {
       res.status(500).json({"message": "sorry somthing went wrong"})
     }
   }
+
