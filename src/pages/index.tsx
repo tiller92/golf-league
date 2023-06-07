@@ -1,11 +1,11 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import { useState, useEffect } from "react";
-
+import Link from 'next/link';
 import { GetServerSideProps } from 'next'
 
 type Data = { 
-  id:string;
+  id:number;
   name:string;
  }
 
@@ -20,8 +20,6 @@ export const getServerSideProps: GetServerSideProps<{ data: Data }> = async (con
 }
 
 const Home: NextPage = (props) => {
-  // no need for this state on the home page yet
-  console.log(props.data.data);
   const [leagues ,setLeagues] = useState<Data[] | null>( props.data.data);
   if (!leagues) {
     return <h1>sorry idiot</h1>
@@ -46,18 +44,23 @@ const Home: NextPage = (props) => {
           </form>
         </div>
         <h3 className="sm:flex sm:justify-center sm:m-3">Leagues</h3>
-        <div className="sm:h-1/2 sm:w-1/2 sm:flex sm:justify-center">
+        <div className="sm:h-1/2 sm:w-12/12 sm:flex sm:justify-center">
            <ul className="sm:flex sm:flex-col sm:justify-center">
             {
               leagues.map(item => (
-              <li className="sm:flex sm:border sm:cursor-pointer sm:hover:bg-sky-700 sm:justify-center sm:m-3 sm:p-3" key={item.id}>League Name: {item.name} id: {item.id}</li>
+                <div className="sm:flex sm:justify-center">
+                <Link href={`leagueHome/${item.name}?name=${item.name}&id=${item.id}`}>
+              <li className="sm:flex sm:border sm:cursor-pointer sm:hover:bg-sky-700 sm:justify-center sm:m-3 sm:p-3" key={item.id}>
+                League Name: {item.name} id: {item.id}</li>
+                </Link>
+                </div>
             )) }
 
               
            </ul>
            </div>
            <div className="sm:flex sm:justify-center ">
-           <a href="/addTeam" className="sm:btn sm:border sm:p-3 sm:flex sm:justify-center">Add Team</a>
+           <a href="/addTeam" className=" sm:hover:bg-sky-700 sm:btn sm:border sm:p-3 sm:flex sm:justify-center">Add League</a>
            </div>
           </>
       </main>
