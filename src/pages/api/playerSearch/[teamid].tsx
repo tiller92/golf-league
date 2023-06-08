@@ -1,27 +1,27 @@
-//api route for team home page should load players and scores
+// search for players with team id
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
-
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 async function main(req: NextApiRequest,res: NextApiResponse) {
-  if (req.query.id !=  undefined) {
-    const id = JSON.parse(req.query.id)
-    const result: any = await prisma.teams.findUnique({
+  console.log(req.query.teamid)
+  if (req.query.teamid !=  undefined) {
+    const id = JSON.parse(req.query.teamid)
+    const result: any = await prisma.players.findMany({
       where: {
-        id: id,
+        teamId: id,
       },
    })
-   console.log(result)
+   console.log(await result, id, 'source')
     return result
   }
 }
 
   export default async function (req: NextApiRequest, res: NextApiResponse) {
     try {
-      let team = await main(req,res)
-      console.log(team)
-      res.status(200).json({'team' : team})
+      let players = await main(req,res)
+      console.log(players, 'export players')
+      res.status(200).json({'players' : players})
     }catch (err){
       res.status(500).json({"message": "sorry somthing went wrong"})
     }
