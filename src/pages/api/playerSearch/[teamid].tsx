@@ -12,6 +12,7 @@ async function main(req: NextApiRequest,res: NextApiResponse) {
         teamId: id,
       },
    })
+   
    console.log(await result, id, 'source')
     return result
   }
