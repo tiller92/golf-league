@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps<{ data: Data }> = async (con
 const Home: NextPage = (props) => {
   const [leagues ,setLeagues] = useState<Data[] | null>( props.data.data);
   if (!leagues) {
-    return <h1>sorry idiot</h1>
+    return <h1>sorry idiot you messed up</h1>
   }
   return (
     <>
@@ -48,8 +48,8 @@ const Home: NextPage = (props) => {
            <ul className="sm:flex sm:flex-col sm:justify-center">
             {
               leagues.map(item => (
-                <div className="sm:flex sm:justify-center">
-                <Link href={`leagueHome/${item.name}?name=${item.name}&id=${item.id}`}>
+                <div key={item.id}  className="sm:flex sm:justify-center">
+                <Link key={item.id} href={`leagueHome/${item.name}?name=${item.name}&id=${item.id}`}>
               <li className="sm:flex sm:border sm:cursor-pointer sm:hover:bg-sky-700 sm:justify-center sm:m-3 sm:p-3" key={item.id}>
                 League Name: {item.name} id: {item.id}</li>
                 </Link>

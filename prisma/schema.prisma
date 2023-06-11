@@ -1,4 +1,6 @@
 //TODO: need to optimize relationships to optimize calls to DB
+//TODO: I don't know how to calculate the pints and standings
+
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {

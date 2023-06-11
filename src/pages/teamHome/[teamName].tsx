@@ -52,7 +52,7 @@ const teamHome: NextPage = (props) => {
     <link rel="icon" href="/favicon.ico" />
   </Head>
   <main>
-        <h1 className=" sm:m-2 sm:text-lg sm:flex sm:justify-center"> {teamName} </h1>
+        <h1 className=" sm:m-2 sm:text-xl sm:flex sm:justify-center"> {teamName} </h1>
         <div className="sm:h-1/2 sm:w-12/12 sm:flex sm:justify-center">
            <ul className="sm:flex sm:flex-col sm:justify-center">
                 <div className="sm:flex sm:justify-center">
@@ -64,17 +64,23 @@ const teamHome: NextPage = (props) => {
            </ul>
            </div>
            <div>
-            <ul>
+            <ul className="sm:flex sm:justify-center">
               {
               players.map(player=> (
-                <div className="sm:flex sm:justify-center">
-                  <Link href={`/playerHome/${player.name}?name=${player.name}&id=${player.id}`}>
-                  <li>{player.name}</li>
+                <div key={player.id}  className="sm:flex sm:justify-center sm:w-1/5 sm:border-2 sm:m-4">
+                  <Link className="sm:w-full sm:flex sm:justify-center" key={player.id}   href={`/playerHome/${player.name}?name=${player.name}&id=${player.id}`}>
+                  <li key={player.id}>{player.name}, HC: {player.handicap}</li>
+
                   </Link>
                 </div>
               ))
               }
             </ul>
+            <div className="sm:flex sm:justify-center sm:m-5 sm:p-2">
+              <p className="sm:text-xl sm:m-3">Recent Scores</p>
+              <p className="sm:text-xl sm:m-3">Current Stading</p>
+            </div>
+
            </div>
   </main>
         </>
