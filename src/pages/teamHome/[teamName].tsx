@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { GetServerSideProps } from 'next'
 import { useEffect, useState } from "react";
 
+
 type Data = { 
   id:number;
   name:string;
@@ -17,6 +18,7 @@ const teamHome: NextPage = (props) => {
   const teamName = router.query.name
   const [team,setTeam] = useState([])
   const [players,setPlayers] = useState([])
+  // const [scores,setScores] = useState([])
   //client side call to DB for team data
   useEffect(() => {
     if(teamId !== undefined){
@@ -26,8 +28,8 @@ const teamHome: NextPage = (props) => {
       res.json()
     )
     .then((data) =>{ 
-      console.log(data)
       setTeam(data['team'])})
+    
     
     //call to db for player info. TODO: optimize db for less calls
     fetch(`/api/playerSearch/${teamId}`)
@@ -35,13 +37,25 @@ const teamHome: NextPage = (props) => {
       res.json()
     )
     .then((data) =>{ 
-      console.log(data)
-      setPlayers(data['players'])})
+      if (data['players'].length < 1){
+        console.log('no players')
+        setPlayers([{
+          id:-1,
+          teamId:-1,
+          name:'No players',
+          handicap:-1,
+          Scores:[]
+        }])
+      }if (data['players'].length >1){
+      console.log(data['players'])
+      setPlayers(data['players'])
+      }
+    })
     }
 
   },[teamId])  
   if (!team) {
-    return <h1>sorry idiot</h1>
+    return <h1>Sorry we had a problem finding that team</h1>
   }
   //TODO: this needs to list the players on the selected team and link to there page
   return (
@@ -52,35 +66,37 @@ const teamHome: NextPage = (props) => {
     <link rel="icon" href="/favicon.ico" />
   </Head>
   <main>
-        <h1 className=" sm:m-2 sm:text-xl sm:flex sm:justify-center"> {teamName} </h1>
+        <h1 className=" sm:m-2 sm:text-xl sm:flex sm:justify-center"> {teamName}</h1>
         <div className="sm:h-1/2 sm:w-12/12 sm:flex sm:justify-center">
            <ul className="sm:flex sm:flex-col sm:justify-center">
                 <div className="sm:flex sm:justify-center">
-                <Link href={`/teamHome/${team.name}?name=${team.name}&id=${team.id}`}>
+                <Link href={`/playerHome/${team.name}?name=${team.name}&id=${team.id}`}>
               <li className="sm:flex sm:border sm:cursor-pointer sm:hover:bg-sky-700 sm:justify-center sm:m-3 sm:p-3" key={team.id}>
                  Team: {team.name} id: {team.id}</li>
                 </Link>
                 </div>            
            </ul>
+           
            </div>
            <div>
             <ul className="sm:flex sm:justify-center">
               {
               players.map(player=> (
-                <div key={player.id}  className="sm:flex sm:justify-center sm:w-1/5 sm:border-2 sm:m-4">
+                <div key={player.id}  className="sm:flex sm:flex-col sm:justify-center sm:w-1/5 sm:border-2 sm:m-4">
                   <Link className="sm:w-full sm:flex sm:justify-center" key={player.id}   href={`/playerHome/${player.name}?name=${player.name}&id=${player.id}`}>
-                  <li key={player.id}>{player.name}, HC: {player.handicap}</li>
-
+                  <p key={player.id}>{player.name}, HC: {player.handicap}</p>
                   </Link>
+                  <div className="sm:flex sm:justify-center sm:flex-col ">
+                    <p className="sm:flex sm:justify-center">Recent Scores:</p>
+                  {player.Scores.map(scores => (
+                    <li  key={scores.score} className="sm:flex sm:justify-center">{scores.score}</li>
+                  ))}
+                </div>
                 </div>
               ))
               }
             </ul>
-            <div className="sm:flex sm:justify-center sm:m-5 sm:p-2">
-              <p className="sm:text-xl sm:m-3">Recent Scores</p>
-              <p className="sm:text-xl sm:m-3">Current Stading</p>
-            </div>
-
+           
            </div>
   </main>
         </>
