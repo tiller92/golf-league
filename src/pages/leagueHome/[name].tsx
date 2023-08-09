@@ -16,6 +16,7 @@ const leagueHome: NextPage = (props) => {
   const router = useRouter()
   const leagueId = router.query.id
   const leagueName = router.query.name
+  console.log(leagueId, leagueName)
   const [teams,setTeams] = useState([])
   //client side renders league data from DB
   useEffect(() => {
@@ -32,6 +33,7 @@ const leagueHome: NextPage = (props) => {
   if (!teams) {
     return <h1>sorry idiot</h1>
   }
+  //rember after this point send the league ID in the url
   return (
     <>
     <Head>
@@ -44,11 +46,11 @@ const leagueHome: NextPage = (props) => {
         <div className="sm:h-1/2 sm:w-12/12 sm:flex sm:justify-center">
            <ul className="sm:flex sm:flex-col sm:justify-center">
             {
-              teams.map(item => (
-                <div className="sm:flex sm:justify-center">
-                <Link href={`/teamHome/${item.name}?name=${item.name}&id=${item.id}`}>
-              <li className="sm:flex sm:border sm:cursor-pointer sm:hover:bg-sky-700 sm:justify-center sm:m-3 sm:p-3" key={item.id}>
-                 Team: {item.name} id: {item.id}</li>
+              teams.map(team => (
+                <div  key={team.id} className="sm:flex sm:justify-center">
+                <Link href={`/teamHome/${leagueName}/${leagueId}/${team.name}?name=${team.name}&id=${team.id}`}>
+              <li  key={team.id} className="sm:flex sm:border sm:cursor-pointer sm:hover:bg-sky-700 sm:justify-center sm:m-3 sm:p-3">
+                 Team: {team.name} id: {team.id}</li>
                 </Link>
                 </div>
             )) }

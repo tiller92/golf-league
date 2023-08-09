@@ -47,11 +47,11 @@ const Home: NextPage = (props) => {
         <div className="sm:h-1/2 sm:w-12/12 sm:flex sm:justify-center">
            <ul className="sm:flex sm:flex-col sm:justify-center">
             {
-              leagues.map(item => (
-                <div key={item.id}  className="sm:flex sm:justify-center">
-                <Link key={item.id} href={`leagueHome/${item.name}?name=${item.name}&id=${item.id}`}>
-              <li className="sm:flex sm:border sm:cursor-pointer sm:hover:bg-sky-700 sm:justify-center sm:m-3 sm:p-3" key={item.id}>
-                League Name: {item.name} id: {item.id}</li>
+              leagues.map(league => (
+                <div key={league.id}  className="sm:flex sm:justify-center">
+                <Link key={league.id} href={`leagueHome/${league.name}?name=${league.name}&id=${league.id}`}>
+              <li className="sm:flex sm:border sm:cursor-pointer sm:hover:bg-sky-700 sm:justify-center sm:m-3 sm:p-3" key={league.id}>
+                League Name: {league.name} id: {league.id}</li>
                 </Link>
                 </div>
             )) }

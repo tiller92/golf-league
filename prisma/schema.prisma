@@ -27,12 +27,15 @@ model Teams {
   scores   Int[]
 }
 
+// if a player needs to have multiple team id's then the team home page needs to include league id 
 model Players {
-  id       Int      @id @default(autoincrement())
-  teamId   Int
-  name     String
-  handicap Int?
-  Scores   Scores[]
+  id           Int            @id @default(autoincrement())
+  teamId       Int
+  name         String
+  handicap     Int?
+  Scores       Scores[]
+  imageId        Int?
+  ImagePlayers ImagePlayers[]
 }
 
 model Scores {
@@ -47,4 +50,12 @@ model Courses {
   name   String
   slope  Float
   Rating Float
+}
+
+// Keep this separate do not add images to player table. This will keep the player table more effecient
+model ImagePlayers {
+  id       Int     @id @default(autoincrement())
+  player   Players @relation(fields: [playerId], references: [id])
+  playerId Int
+  file     Bytes
 }

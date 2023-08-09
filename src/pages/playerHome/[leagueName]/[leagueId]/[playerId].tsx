@@ -1,4 +1,5 @@
-// this is the home page for an individual team
+// TODO: this page should be editable by an administrator and display the user data to unautherized users.
+
 import { type NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from 'next/router';
@@ -16,23 +17,31 @@ const playerHome: NextPage = (props) => {
   const router = useRouter()
   const playerId = router.query.id
   const playerName = router.query.name
-  const [player,setPlayer] = useState([])
+  const currentLeagueName = router.query.leagueName
+  const currentLeagueId = router.query.leagueId
+  const [player,setPlayer] = useState({
+    id:-1,
+    name:'-1',
+    handicap:-1,
+    teamId:-1,
+  })
     
     //call to db for player info. TODO: optimize db for less calls
   useEffect(()=>{
-    fetch(`/api/playerSearch/player/${playerId}`)
-    .then((res)  =>  
-      res.json()
-    )
-    .then((data) =>{ 
-      console.log(data)
-      setPlayer(data)
-  },);  
-  },[playerId])
+    if (playerId != undefined){
+      fetch(`/api/playerSearch/player/${playerId}`)
+      .then((res)  =>  
+        res.json()
+      )
+      .then(async(data) =>{ 
+        setPlayer(await data.player)
+      },);  
+      }
+  },[playerName])
   if (!player) {
     return <h1>Sorry we had a problem finding that player</h1>
   }
-  //TODO: this needs to list the players on the selected team and link to there page
+  //TODO: this page should display player information and profile data
   return (
     <>
     <Head>
@@ -45,6 +54,8 @@ const playerHome: NextPage = (props) => {
         <div className="sm:h-1/2 sm:w-12/12 sm:flex sm:justify-center">
                 <div className="sm:flex sm:justify-center">
                   <img src="" alt="" />
+                  <p>{player['handicap']}</p>
+                  <p>{player['name']}</p>
                 </div>            
           
            

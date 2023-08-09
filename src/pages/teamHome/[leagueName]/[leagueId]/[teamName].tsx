@@ -16,6 +16,8 @@ const teamHome: NextPage = (props) => {
   const router = useRouter()
   const teamId = router.query.id
   const teamName = router.query.name
+  const leagueId = router.query.leagueId
+  const leagueName = router.query.leagueName
   const [team,setTeam] = useState([])
   const [players,setPlayers] = useState([])
   // const [scores,setScores] = useState([])
@@ -31,7 +33,7 @@ const teamHome: NextPage = (props) => {
       setTeam(data['team'])})
     
     
-    //call to db for player info. TODO: optimize db for less calls
+    // if player model coulse have multiple team need to also check league id or include league it in session storage.
     fetch(`/api/playerSearch/${teamId}`)
     .then((res)  =>  
       res.json()
@@ -70,10 +72,9 @@ const teamHome: NextPage = (props) => {
         <div className="sm:h-1/2 sm:w-12/12 sm:flex sm:justify-center">
            <ul className="sm:flex sm:flex-col sm:justify-center">
                 <div className="sm:flex sm:justify-center">
-                <Link href={`/playerHome/${team.name}?name=${team.name}&id=${team.id}`}>
               <li className="sm:flex sm:border sm:cursor-pointer sm:hover:bg-sky-700 sm:justify-center sm:m-3 sm:p-3" key={team.id}>
                  Team: {team.name} id: {team.id}</li>
-                </Link>
+               
                 </div>            
            </ul>
            
@@ -83,7 +84,7 @@ const teamHome: NextPage = (props) => {
               {
               players.map(player=> (
                 <div key={player.id}  className="sm:flex sm:flex-col sm:justify-center sm:w-1/5 sm:border-2 sm:m-4">
-                  <Link className="sm:w-full sm:flex sm:justify-center" key={player.id}   href={`/playerHome/${player.name}?name=${player.name}&id=${player.id}`}>
+                  <Link className="sm:w-full sm:flex sm:justify-center" key={player.id}   href={`/playerHome/${leagueName}/${leagueId}/${player.name}?name=${player.name}&id=${player.id}`}>
                   <p key={player.id}>{player.name}, HC: {player.handicap}</p>
                   </Link>
                   <div className="sm:flex sm:justify-center sm:flex-col ">
