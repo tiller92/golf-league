@@ -48,7 +48,7 @@ const leagueHome: NextPage = (props) => {
             {
               teams.map(team => (
                 <div  key={team.id} className="sm:flex sm:justify-center">
-                <Link href={`/teamHome/${leagueName}/${leagueId}/${team.name}?name=${team.name}&id=${team.id}`}>
+                <Link href={`/teamHome/${leagueName}/${leagueId}/${team.name}?name=${team.name}&teamId=${team.id}`}>
               <li  key={team.id} className="sm:flex sm:border sm:cursor-pointer sm:hover:bg-sky-700 sm:justify-center sm:m-3 sm:p-3">
                  Team: {team.name} id: {team.id}</li>
                 </Link>

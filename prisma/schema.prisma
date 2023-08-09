@@ -27,10 +27,11 @@ model Teams {
   scores   Int[]
 }
 
-// if a player needs to have multiple team id's then the team home page needs to include league id 
+// if a player needs to have multiple team id's then the team home page needs to include league id. Never add a player to more then one team in a league.
+// also need to fiugre how subs will work
 model Players {
   id           Int            @id @default(autoincrement())
-  teamId       Int
+  teamId       Int[]
   name         String
   handicap     Int?
   Scores       Scores[]

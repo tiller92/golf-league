@@ -1,5 +1,5 @@
 // TODO: this page should be editable by an administrator and display the user data to unautherized users.
-
+// shoould ignogre the leauge prev picked and display all player data to unautherized users and be editable if amdmin is signed in.
 import { type NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from 'next/router';

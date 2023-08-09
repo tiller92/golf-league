@@ -5,11 +5,13 @@ const prisma = new PrismaClient()
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 async function main(req: NextApiRequest,res: NextApiResponse) {
-  if (req.query.id !=  undefined) {
-    const id = JSON.parse(req.query.id)
+  if (req.query.teamId && req.query.leagueId !=  undefined) {
+    const teamId = JSON.parse(req.query.teamId)
+    const leagueId = JSON.parse(req.query.leagueId)
+    console.log(teamId, "teamId", leagueId, "leagueID")
     const result: any = await prisma.teams.findUnique({
       where: {
-        id: id,
+        id: teamId,
       },
    })
    console.log(result)
@@ -20,9 +22,11 @@ async function main(req: NextApiRequest,res: NextApiResponse) {
   export default async function (req: NextApiRequest, res: NextApiResponse) {
     try {
       let team = await main(req,res)
-      console.log(team)
-      res.status(200).json({'team' : team})
+      res.status(200).json({
+        status: res.statusCode,
+        'team' : team
+      })
     }catch (err){
-      res.status(500).json({"message": "sorry somthing went wrong"})
+      res.status(500).json({"message": err.status, "message": err.message})
     }
   }

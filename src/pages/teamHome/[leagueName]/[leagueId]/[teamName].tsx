@@ -14,7 +14,7 @@ type Data = {
 
 const teamHome: NextPage = (props) => {
   const router = useRouter()
-  const teamId = router.query.id
+  const teamId = router.query.teamId
   const teamName = router.query.name
   const leagueId = router.query.leagueId
   const leagueName = router.query.leagueName
@@ -23,18 +23,20 @@ const teamHome: NextPage = (props) => {
   // const [scores,setScores] = useState([])
   //client side call to DB for team data
   useEffect(() => {
-    if(teamId !== undefined){
+    if(teamId && leagueId !== undefined){
       //team data
-    fetch(`/api/teamSearch/${teamId}`)
-    .then((res)  =>  
+    fetch(`/api/teamSearch/${teamId}/${leagueId}`)
+    .then((res)  => 
       res.json()
     )
     .then((data) =>{ 
-      setTeam(data['team'])})
+      setTeam(data['team'])
+      console.log(data,'team search api')
+    })
     
     
     // if player model coulse have multiple team need to also check league id or include league it in session storage.
-    fetch(`/api/playerSearch/${teamId}`)
+    fetch(`/api/playerSearch/${leagueId}/${teamId}`)
     .then((res)  =>  
       res.json()
     )
@@ -49,9 +51,18 @@ const teamHome: NextPage = (props) => {
           Scores:[]
         }])
       }if (data['players'].length >1){
-      console.log(data['players'])
+      console.log(data['players'],'player search api')
       setPlayers(data['players'])
       }
+    }).catch((err)=>{
+      console.log(err)
+      setPlayers([{
+        id:-1,
+        teamId:-1,
+        name:'No players',
+        handicap:-1,
+        Scores:[]
+      }])
     })
     }
 
